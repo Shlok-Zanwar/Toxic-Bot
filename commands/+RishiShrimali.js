@@ -2,6 +2,6 @@ module.exports = {
     name : 'rishishrimali',
     description : " ",
     execute(message, args){
-        message.channel.send("Rishi Shrimali");
+        message.channel.send("Aaj Kitna hagega ?");
     }
 }
