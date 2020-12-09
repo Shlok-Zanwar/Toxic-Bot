@@ -227,7 +227,7 @@ client.on('message', message => {
         client.commands.get('MaroMujheMaro').execute(message, args);
     }
     
-    else if(command === 'oooo' || command ==  'dilwaale'){
+    else if(command === 'matlabkuchbhi' || command ==  'kuchbhi'){
         client.commands.get('MatlabKuchBhi').execute(message, args);
     }
     
