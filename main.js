@@ -167,6 +167,86 @@ client.on('message', message => {
         client.commands.get('DilWaaleOOOO').execute(message, args);
     }
 
+    else if(command === 'nahi' || command ==  'nai'){
+        client.commands.get('Nahi').execute(message, args);
+    }
+    
+    else if(command === 'baapkomatsikha' || command ==  'matsikha'){
+        client.commands.get('MalumHaiTereBaapKoMatSikha').execute(message, args);
+    }
+    
+    else if(command === 'abeysaale' || command ==  'saale'){
+        client.commands.get('AbeySaale').execute(message, args);
+    }
+    
+    else if(command === 'padhailikhai' || command ==  'padhai'){
+        client.commands.get('PadhaiLikhaiMaiDhyanLagao').execute(message, args);
+    }
+    
+    else if(command === 'zindatohbaalbhihai' || command ==  'jhaatkebaal'){
+        client.commands.get('ZindaTohBaalBhiHai').execute(message, args);
+    }
+    
+    else if(command === 'gandnaphulao' || command ==  'mcdenge'){
+        client.commands.get('GandNaaPhulao').execute(message, args);
+    }
+    
+    else if(command === 'chacha' || command ==  'bsdkchacha'){
+        client.commands.get('ChachaOhhChacha').execute(message, args);
+    }
+    
+    else if(command === 'musicbandkaro' || command ==  'musicband'){
+        client.commands.get('AreyMusicBandKaroZaara').execute(message, args);
+    }
+    
+    else if(command === 'restkro' || command ==  'rip'){
+        client.commands.get('ThodaRestKarLijiye').execute(message, args);
+    }
+    
+    else if(command === 'kisekehrha' || command ==  'kkrh'){
+        client.commands.get('KiseKehRahaHai').execute(message, args);
+    }
+    
+    else if(command === 'sorryraga' || command ==  'sorry'){
+        client.commands.get('SorrySorryRAGA').execute(message, args);
+    }
+    
+    else if(command === 'laudaphekke' || command ==  'purakhandan'){
+        client.commands.get('LaudaPhekKeMaruga').execute(message, args);
+    }
+    
+    else if(command === 'oh' || command ==  'ohh'){
+        client.commands.get('Ohhhhhhhh').execute(message, args);
+    }
+    
+    else if(command === 'pattseheadshot' || command ==  'headshot'){
+        client.commands.get('PattSeHeadshot').execute(message, args);
+    }
+    
+    else if(command === 'mujhemaro' || command ==  'mmm'){
+        client.commands.get('MaroMujheMaro').execute(message, args);
+    }
+    
+    else if(command === 'oooo' || command ==  'dilwaale'){
+        client.commands.get('MatlabKuchBhi').execute(message, args);
+    }
+    
+    else if(command === 'itsherchoice' || command ==  'herchoice'){
+        client.commands.get('ItsHerChoice').execute(message, args);
+    }
+    
+    else if(command === 'buralagtahai' || command ==  'dilsebura'){
+        client.commands.get('BuraLagtaHaiBhai').execute(message, args);
+    }
+    
+    else if(command === 'ekdabbagu' || command ==  'dabbagu'){
+        client.commands.get('EkDabbaGuuBhau').execute(message, args);
+    }
+    
+    else if(command === 'lundinsaan' || command ==  'lundinsaan'){
+        client.commands.get('LundInsaanCarry').execute(message, args);
+    }
+
     // Else
     else{
         message.channel.send("Galat command hai BSDK !!!");
