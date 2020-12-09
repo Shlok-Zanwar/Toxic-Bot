@@ -103,15 +103,15 @@ client.on('message', message => {
         client.commands.get('MaaKaBsdaMc').execute(message, args);
     }
 
-    else if(command === 'maimchu'){
+    else if(command === 'maimchu' || command === 'maimchu'){
         client.commands.get('MaiMcHu').execute(message, args);
     }
 
-    else if(command === 'netaneta'){
+    else if(command === 'netaneta' || command === 'neta'){
         client.commands.get('NetaNeta').execute(message, args);
     }
 
-    else if(command === 'nikallaude'){
+    else if(command === 'nikallaude' || command === 'nikal'){
         client.commands.get('NikalLaudeBhau').execute(message, args);
     }
 
@@ -123,11 +123,11 @@ client.on('message', message => {
         client.commands.get('SaareMilkarMcBanare').execute(message, args);
     }
 
-    else if(command === 'sachboldebsdk'){
+    else if(command === 'sachboldebsdk' || command === 'sach'){
         client.commands.get('SachBoldeBSDK').execute(message, args);
     }
 
-    else if(command === 'bhagwansedaaro'){
+    else if(command === 'bhagwansedaaro' || command === 'daro'){
         client.commands.get('SharamKaroBhagwanSeDaro').execute(message, args);
     }
 
@@ -139,15 +139,15 @@ client.on('message', message => {
         client.commands.get('TeriMaaKurkureBhau').execute(message, args);
     }
 
-    else if(command === 'tumsenahopayega'){
+    else if(command === 'tumsenahopayega' || command === 'nahopayega'){
         client.commands.get('TumseNaHoPayega').execute(message, args);
     }
 
-    else if(command === 'whatwtf'){
+    else if(command === 'whatwtf' || command === 'wtf'){
         client.commands.get('WhatWTF').execute(message, args);
     }
 
-    else if(command === 'yehkoirkhai'){
+    else if(command === 'yehkoirkhai' || command === 'rk'){
         client.commands.get('YehKoiRkHai').execute(message, args);
     }
 
@@ -155,11 +155,11 @@ client.on('message', message => {
         client.commands.get('YehTohTattiHai').execute(message, args);
     }
 
-    else if(command === 'salamalikum'){
+    else if(command === 'salamalikum' || command === 'salam'){
         client.commands.get('SalamAlikum').execute(message, args);
     }
 
-    else if(command === 'terimkc'){
+    else if(command === 'terimkc' || command === 'terimkc'){
         client.commands.get('TeriMKC').execute(message, args);
     }
 
