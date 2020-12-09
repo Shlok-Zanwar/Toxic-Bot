@@ -159,7 +159,7 @@ client.on('message', message => {
         client.commands.get('SalamAlikum').execute(message, args);
     }
 
-    else if(command === 'terimkc' || command === 'terimkc'){
+    else if(command === 'terimkc' || command === 'terimk'){
         client.commands.get('TeriMKC').execute(message, args);
     }
 
