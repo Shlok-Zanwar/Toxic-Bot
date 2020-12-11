@@ -21,7 +21,7 @@ client.once('ready', () => {
 })
 
 client.on('message', message => {
-    let allowedRole = message.guild.roles.get('bt');
+    let allowedRole = message.guild.roles.cache.find("name", "tb");
 
     if(!message.member.roles.has(allowedRole.id)){
         message.channel.send("You dont have the permission to use Toxic-Bot (Add a role 'tb')");
