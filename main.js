@@ -21,11 +21,11 @@ client.once('ready', () => {
 })
 
 client.on('message', message => {
-    let allowedRole = message.guild.roles.cache.find("name", "tb");
+    // let allowedRole = message.guild.roles.cache.find("name", "tb");
 
-    if(!message.member.roles.has(allowedRole.id)){
-        message.channel.send("You dont have the permission to use Toxic-Bot (Add a role 'tb')");
-    }
+    // if(!message.member.roles.has(allowedRole.id)){
+    //     message.channel.send("You dont have the permission to use Toxic-Bot (Add a role 'tb')");
+    // }
 
     if(!message.content.startsWith(prefix) || message.author.bot) {
         return;
