@@ -21,8 +21,10 @@ client.once('ready', () => {
 })
 
 client.on('message', message => {
-    if(!message.author.has_any_role("tb")){
-        message.channel.send("You dont have the permission to use Toxic-Bot");
+    let allowedRole = message.guild.roles.find("name", "tb");
+
+    if(!message.member.roles.has(allowedRole.id)){
+        message.channel.send("You dont have the permission to use Toxic-Bot (Add a role 'tb')");
     }
 
     if(!message.content.startsWith(prefix) || message.author.bot) {
