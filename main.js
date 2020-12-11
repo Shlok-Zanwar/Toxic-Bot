@@ -21,6 +21,10 @@ client.once('ready', () => {
 })
 
 client.on('message', message => {
+    if(!message.author.has_any_role("tb")){
+        message.channel.send("You dont have the permission to use Toxic-Bot");
+    }
+
     if(!message.content.startsWith(prefix) || message.author.bot) {
         return;
     }
