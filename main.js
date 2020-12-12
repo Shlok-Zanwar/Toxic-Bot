@@ -52,7 +52,7 @@ client.on('message', message => {
             client.commands.get('aiman').execute(message, args);
         }
         else if(command === 'disconnect'){
-            if (message.guild.me.voiceChannel === undefined) {
+            if (message.guild.me.voiceChannel === null) {
                 message.reply("I'm not connected to a voice channel!");
             } 
             else{
