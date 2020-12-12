@@ -52,12 +52,12 @@ client.on('message', message => {
             client.commands.get('aiman').execute(message, args);
         }
         else if(command === 'disconnect'){
-            if (client.guildChannel.voiceChannel === message.author.voiceChannel){
+            // if (client.guildChannel.voiceChannel === message.author.voiceChannel){
                 message.guild.voiceConnection.disconnect();
-            }
-            else{
-                message.channel.send("no");
-            }
+            // }
+            // else{
+                // message.channel.send("no");
+            // }
         }
 
 
