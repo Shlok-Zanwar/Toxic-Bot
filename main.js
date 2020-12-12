@@ -21,11 +21,6 @@ client.once('ready', () => {
 })
 
 client.on('message', message => {
-    // let allowedRole = message.guild.roles.cache.find("name", "tb");
-
-    
-        
-    
 
     if(!message.content.startsWith(prefix) || message.author.bot) {
         return;
@@ -52,17 +47,21 @@ client.on('message', message => {
             client.commands.get('aiman').execute(message, args);
         }
         else if(command === 'disconnect' || command === 'leave' || command === 'dc'){
+            // If never joined a voice channel
             if(message.guild.voice === undefined){
                 message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
                 return;
             }
 
+            // If not in channel
             if (message.guild.voice.channelID === null){
                 message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
             }
+            // if not in same channel
             else if(message.member.voice.channelID !== message.guild.voice.channelID){
                 message.channel.send("Pehle mere sath same channel mai aa loudu.");
             }
+            // disconnect
             else{
                 message.guild.voice.connection.disconnect();
             }
@@ -276,6 +275,7 @@ client.on('message', message => {
             message.channel.send("Galat command hai BSDK !!!");
         }
     }
+    // To check if member has role named tb if not next else
     else{
         message.channel.send("You dont have the permission to use Toxic-Bot (Add a role 'tb') !!");
     }
