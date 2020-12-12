@@ -53,12 +53,12 @@ client.on('message', message => {
         }
         else if(command === 'disconnect'){
             if (!message.guild.voice.channelID){
-                message.channel.send("no");
-                
+                message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
+            }
+            else if(message.member.voice.channelID === message.guild.voice.channelID){
+                message.channel.send("Pehle mere sath same channel mai aa loudu.");
             }
             else{
-            //     message.guild.voice.connection.channel.id
-            //     client.voic
                 message.guild.voice.connection.disconnect();
             }
         }
