@@ -26,7 +26,7 @@ client.on('message', message => {
         return;
     }
 
-    if(message.member.roles.cache.find(role => role.name === "tb")){
+    if(message.member.roles.cache.find(role => role.name === "tb") || message.member.hasPermission('ADMINISTRATOR')){
 
         const args = message.content.slice(prefix.length).split("/ +/");
         const command = args.shift().toLowerCase();
@@ -65,6 +65,12 @@ client.on('message', message => {
             else{
                 message.guild.voice.connection.disconnect();
             }
+        }
+        
+        else if(command === "clear" || command === "delete"){
+            message.channel.messages.fetch().then((results) => {
+                message.channel.bulkDelete(results);
+            })
         }
 
 
