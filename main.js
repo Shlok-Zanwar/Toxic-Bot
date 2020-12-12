@@ -31,7 +31,7 @@ client.on('message', message => {
         return;
     }
 
-    if(message.member.roles.cache.has(role => role.name === "tb")){
+    if(message.member.roles.cache.find(role => role.name === "tb")){
 
         const args = message.content.slice(prefix.length).split("/ +/");
         const command = args.shift().toLowerCase();
