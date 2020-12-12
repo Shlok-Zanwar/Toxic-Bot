@@ -67,11 +67,11 @@ client.on('message', message => {
             }
         }
         
-        else if(command === "clear" || command === "delete"){
-            message.channel.messages.fetch().then((results) => {
-                message.channel.bulkDelete(results);
-            })
-        }
+        // else if(command === "clear" || command === "delete"){
+        //     message.channel.messages.fetch().then((results) => {
+        //         message.channel.bulkDelete(results);
+        //     })
+        // }
 
 
 
