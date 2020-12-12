@@ -52,8 +52,13 @@ client.on('message', message => {
             client.commands.get('aiman').execute(message, args);
         }
         else if(command === 'disconnect'){
-            const connection = this.client.voice.connections.get(this.guild.id);
-            if (connection && connection.channel.id === this.id) connection.disconnect();
+            if (message.guild.me.voiceChannel === undefined) {
+                message.reply("I'm not connected to a voice channel!");
+            } 
+            else{
+                message.guild.me.voiceChannel.leave();
+                message.reply("I have successfully left the voice channel!");
+            }
         }
 
 
