@@ -51,7 +51,7 @@ client.on('message', message => {
         else if(command === 'aiman'){
             client.commands.get('aiman').execute(message, args);
         }
-        else if(command === 'disconnect'){
+        else if(command === 'disconnect' || command === 'leave' || command === 'dc'){
             if (message.guild.voice.channelID === null){
                 message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
             }
