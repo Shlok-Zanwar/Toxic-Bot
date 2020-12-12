@@ -53,7 +53,7 @@ client.on('message', message => {
         }
         else if(command === 'disconnect'){
             // if (client.guildChannel.voiceChannel === message.author.voiceChannel){
-                message.guild.voiceConnection.disconnect();
+                message.guild.voice.connection.disconnect();
             // }
             // else{
                 // message.channel.send("no");
