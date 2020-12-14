@@ -19,14 +19,6 @@ for(const file of commandFiles){
 client.once('ready', () => {
     console.log('OP Bot is online !');
     console.log('Logged in to ' + client.guilds.cache.size + ' servers.');
-    try{
-        client.guilds.cache.get(id).leave();
-        console.log("server left")
-    }
-    catch (err){
-        console.log("Error while leaving server.")
-    }
-    console.log('Logged in to ' + client.guilds.cache.size + ' servers.');
 })
 
 client.on('message', message => {
