@@ -18,6 +18,7 @@ for(const file of commandFiles){
 
 client.once('ready', () => {
     console.log('OP Bot is online !');
+    console.log('Logged in to ' + client.guilds.cache.size + ' servers.');
 })
 
 client.on('message', message => {
