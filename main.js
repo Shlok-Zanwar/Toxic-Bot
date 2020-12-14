@@ -77,7 +77,7 @@ client.on('message', message => {
 
             // Song commands
             else if(command === 'apnibhavnaokodaalo' || command === 'bhavnao'){
-                client.commands.get('ApniBhavnaoKoDaalo').execute(message, args);
+                client.commands.get('ApniBhavnaoKoDaal').execute(message, args);
             }
 
             else if(command === 'apnimaamaatchudao' || command === 'maachudao'){
