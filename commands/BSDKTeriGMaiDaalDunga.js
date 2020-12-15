@@ -14,8 +14,8 @@ module.exports = {
         }
         else{
             voice.channel.join().then((connection) => {
-                connection.play(path.join(__dirname, '_BSDKTeriGMaiDaalDuga.mp3'));
-
+                const dispatcher = connection.play(path.join(__dirname, '_BSDKTeriGMaiDaalDuga.mp3'));
+                dispatcher.on("finish", () => voice.channel.leave())
             })
         }
     }
