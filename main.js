@@ -97,8 +97,8 @@ function sendHelpMessage(channel){
     channel.send(messageToSend);
 }
 
-
-function getWelcomeChannel(){
+client.on("guildCreate", guild => {
+    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
     let channelID;
     let channels = guild.channels.cache;
 
@@ -120,11 +120,6 @@ function getWelcomeChannel(){
     catch(err){
         console.log("Couldnt send entry message :(");
     }
-}
-
-client.on("guildCreate", guild => {
-    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    getWelcomeChannel();
 });
 
 client.once('ready', () => {
