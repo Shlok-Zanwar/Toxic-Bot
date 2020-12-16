@@ -1,20 +1,21 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefix = "+";
+const prefix = "tb ";
 
 client.commands = new Discord.Collection();
 
 var queue = [];
 var botIsBusy = false;
-const maxQueue = 5;
+const maxQueue = 7;
 
+var myJson = require('./commands/myJson.json');
 
 function handleQueue(message){
     if(queue.length == 0){
         botIsBusy = false;
     }
     else{
-        var toPlay = queue[0];
+        var toPlay = myJson[queue[0]];
         queue.shift();
         playSound(message, toPlay);
     }
@@ -58,6 +59,7 @@ function handleDisconnect(message){
     // disconnect
     else{
         botIsBusy = false;
+        queue = [];
         message.guild.voice.connection.disconnect();
         return;
     }
@@ -73,11 +75,9 @@ function handleBusyBot(message, command){
     }
     else{
         message.channel.send("'" + command + "' added to queue.")
-        queue.push(myJson[command]);
+        queue.push(command);
     }
 }
-
-var myJson = require('./commands/myJson.json');
 
 client.once('ready', () => {
     console.log('TOXIC Bot is online !');
@@ -102,6 +102,34 @@ client.on('message', message => {
                 return;
             }
 
+            
+            if(command === 'remove' || command === 'rm'){
+                if(queue.length >= 1){
+                    message.channel.send("'" + queue[queue.length - 1] + "' removed from queue.")
+                    queue.pop();
+                    if(queue.length == 0){
+                        botIsBusy = false;
+                    }
+                }
+                else{
+                    message.channel.send("Nothing to remove from queue.")
+                }
+                return;
+            }
+
+            if(command === 'clearqueue' || command === 'clrq'){
+                if(queue.length >= 1){
+                    message.channel.send("Queue cleared.")
+                    queue = [];
+                    botIsBusy = false;
+                }
+                else{
+                    message.channel.send("Nothing to remove from queue.")
+                }
+                return;
+            }
+            
+
             if(myJson[command] === undefined){
                 message.channel.send("Galat Command hai BSDK !!!!");
                 return;
@@ -111,6 +139,7 @@ client.on('message', message => {
                 // Cause if a user disconnects manually, the bot would be shown busy if it was disconnected while playing something.
                 if(message.guild.voice.channelID === null || message.guild.voice === undefined){
                     botIsBusy = false;
+                    queue = [];
                 }
                 else{
                     handleBusyBot(message, command);
@@ -130,7 +159,6 @@ client.on('message', message => {
     }
 
 });
-
 
 
 
