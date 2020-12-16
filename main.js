@@ -28,6 +28,7 @@ function sendEmbedMessage(channel, title, description){
     channel.send(messageToSend);
 }
 
+
 function handleQueue(message){
     if(queue.length == 0){
         botIsBusy = false;
@@ -116,14 +117,19 @@ function sendHelpMessage(channel){
     channel.send(messageToSend);
 }
 
-function printQueue(message){
-    var strToPrint = "";
-    var i;
-    for(i = 0; i < queue.length; i++){
-        strToPrint += (i+1).toString() + ") " + queue[i] + "\n";
-    }
 
-    sendEmbedMessage(message.channel, "Queue", strToPrint);
+function printQueue(message){
+    if(queue.length >= 1){
+        var strToPrint = "";
+        var i;
+        for(i = 0; i < queue.length; i++){
+            strToPrint += (i+1).toString() + ") " + queue[i] + "\n";
+        }
+        sendEmbedMessage(message.channel, "Queue", strToPrint);
+    }
+    else{
+        sendEmbedMessage(message.channel, "Queue is empty", null);
+    }
 }
 
 
@@ -151,6 +157,7 @@ client.on("guildCreate", guild => {
         console.log("Couldnt send entry message :(");
     }
 });
+
 
 client.once('ready', () => {
     console.log('TOXIC Bot is online !');
@@ -181,12 +188,7 @@ client.on('message', message => {
             }
 
             if(command === 'queue' || command == 'printqueue'){
-                if(queue.length >= 1){
-                    printQueue(message);
-                }
-                else{
-                    sendEmbedMessage(message.channel, "Queue is empty", null);
-                }
+                printQueue(message);
                 return;
             }
 
@@ -252,5 +254,6 @@ client.on('message', message => {
     }
 
 });
+
 
 client.login(process.env.token);
