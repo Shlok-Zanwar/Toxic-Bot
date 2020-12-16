@@ -86,7 +86,7 @@ function sendHelpMessage(channel){
         .setTitle('Apun aa gaya hai meme bajane.')
         .setAuthor('TOXIC BOT')
         .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.")
-        .addField({name: 'For help', value: '"tb help"'})
+        .addField('For help', '"tb help"')
         .addFields(
             { name: '\u200B', value: '\u200B' },
             { name: 'Prefix', value: '"tb "' },
