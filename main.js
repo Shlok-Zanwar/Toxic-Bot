@@ -85,7 +85,8 @@ function sendHelpMessage(channel){
         .setColor('#0099ff')
         .setTitle('Apun aa gaya hai meme bajane.')
         .setAuthor('TOXIC BOT')
-        .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.\nFor help\ntb help")
+        .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.")
+        .addField({name: 'For help', value: '"tb help"'})
         .addFields(
             { name: '\u200B', value: '\u200B' },
             { name: 'Prefix', value: '"tb "' },
