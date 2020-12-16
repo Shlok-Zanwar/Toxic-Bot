@@ -89,10 +89,10 @@ function sendHelpMessage(channel){
         .addField('For help', '"tb help"')
         .addFields(
             { name: '\u200B', value: '\u200B' },
-            { name: 'Prefix', value: '"tb "' },
-            { name: 'Example', value: '"tb nahi"' },
-            { name: 'Commands', value: 'https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing' },
             { name: 'Website', value: 'Website to be added' },
+            { name: 'Prefix', value: '"tb "', inline: true },
+            { name: 'Example', value: '"tb nahi"' , inline: true},
+            { name: 'Commands', value: 'https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing' },
         )
         .setImage('https://i.ibb.co/7tynPG9/Logo.jpg')
     channel.send(messageToSend);
@@ -144,6 +144,10 @@ client.on('message', message => {
             if(command === 'help'){
                 sendHelpMessage(message.channel)
                 return;
+            }
+
+            if(command === 'commands' || command === 'command'){
+                message.channel.send("View Commands here :-\nhttps://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing")
             }
 
             if(command === 'disconnect' || command === 'leave' || command === 'dc'){
