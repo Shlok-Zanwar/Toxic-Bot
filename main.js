@@ -79,6 +79,12 @@ function handleBusyBot(message, command){
     }
 }
 
+
+client.on("guildCreate", guild => {
+    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+    guild.channels.create('toxic-Bot', { reason: 'Needed a cool new channel' }).then(ch => ch.send("Apun aa gaya hai meme bajane.\nprefix           :- 'tb '\nEg                 :- tb nai\nCommands :- https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing"));
+});
+
 client.once('ready', () => {
     console.log('TOXIC Bot is online !');
 })
@@ -159,7 +165,5 @@ client.on('message', message => {
     }
 
 });
-
-
 
 client.login(process.env.token);
