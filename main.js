@@ -1,297 +1,136 @@
 const Discord = require('discord.js');
-
 const client = new Discord.Client();
-
 const prefix = "+";
-
-const fs = require('fs');
 
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for(const file of commandFiles){
-    const command = require(`./commands/${file}`);
+var queue = [];
+var botIsBusy = false;
+const maxQueue = 5;
 
-    client.commands.set(command.name, command);
+
+function handleQueue(message){
+    if(queue.length == 0){
+        botIsBusy = false;
+    }
+    else{
+        var toPlay = queue[0];
+        queue.shift();
+        playSound(message, toPlay);
+    }
 }
 
 
+function playSound(message, songName){
+    const {voice} = message.member
+
+    if(!voice.channelID){
+        message.channel.send('You must be in a voice channel.');
+    }
+    else{
+        strToPlay = './commands/'+songName;
+        botIsBusy = true;
+        voice.channel.join().then((connection) => {
+
+            const dispatcher = connection.play(strToPlay);
+            dispatcher.on("finish", () => handleQueue(message));
+        })
+    }
+}
+
+
+function handleDisconnect(message){
+    // If never joined a voice channel
+    if(message.guild.voice === undefined){
+        message.channel.send("Arey chutiye mai hu hee nhi koi channel mai ...");
+        return;
+    }
+    // If not in channel
+    if (message.guild.voice.channelID === null){
+        message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
+        return;
+    }
+    // if not in same channel
+    else if(message.member.voice.channelID !== message.guild.voice.channelID){
+        message.channel.send("Pehle mere sath same channel mai aa loudu.");
+        return;
+    }
+    // disconnect
+    else{
+        botIsBusy = false;
+        message.guild.voice.connection.disconnect();
+        return;
+    }
+}
+
+
+function handleBusyBot(message, command){
+    if(message.member.voice.channelID !== message.guild.voice.channelID){
+        message.channel.send("I am already playing something in '" + message.guild.voice.channel.name + "' voice channel. ");
+    }
+    else if(queue.length >= maxQueue){
+        message.channel.send("Queue is full, please wait.")
+    }
+    else{
+        message.channel.send("'" + command + "' added to queue.")
+        queue.push(myJson[command]);
+    }
+}
+
+var myJson = require('./commands/myJson.json');
+
 client.once('ready', () => {
-    console.log('OP Bot is online !');
-    console.log('Logged in to ' + client.guilds.cache.size + ' servers.');
+    console.log('TOXIC Bot is online !');
 })
 
+
 client.on('message', message => {
+    
     try{
         if(!message.content.startsWith(prefix) || message.author.bot) {
             return;
         }
-        
-        if(message.member.roles.cache.find(role => role.name === "tb") || message.member.hasPermission('ADMINISTRATOR')){
 
+        var isPermit = message.member.roles.cache.find(role => role.name === "tb");
+
+        if(message.member.hasPermission('ADMINISTRATOR') || isPermit){
             const args = message.content.slice(prefix.length).split("/ +/");
             const command = args.shift().toLowerCase();
 
-            if(command === 'hardik'){
-                client.commands.get('hardik').execute(message, args);
+            if(command === 'disconnect' || command === 'leave' || command === 'dc'){
+                handleDisconnect(message, command);
+                return;
             }
-            else if(command === 'rohan'){
-                client.commands.get('rohan').execute(message, args);
+
+            if(myJson[command] === undefined){
+                message.channel.send("Galat Command hai BSDK !!!!");
+                return;
             }
-            else if(command === 'howgay'){
-                client.commands.get('howgay').execute(message, args);
-            }
-            else if(command === 'rishishrimali'){
-                client.commands.get('rishishrimali').execute(message, args);
-            }
-            else if(command === 'aiman'){
-                client.commands.get('aiman').execute(message, args);
-            }
-            else if(command === 'disconnect' || command === 'leave' || command === 'dc'){
-                // If never joined a voice channel
-                if(message.guild.voice === undefined){
-                    message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
+
+            if(botIsBusy){
+                // Cause if a user disconnects manually, the bot would be shown busy if it was disconnected while playing something.
+                if(message.guild.voice.channelID === null || message.guild.voice === undefined){
+                    botIsBusy = false;
+                }
+                else{
+                    handleBusyBot(message, command);
                     return;
                 }
-
-                // If not in channel
-                if (message.guild.voice.channelID === null){
-                    message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
-                }
-                // if not in same channel
-                else if(message.member.voice.channelID !== message.guild.voice.channelID){
-                    message.channel.send("Pehle mere sath same channel mai aa loudu.");
-                }
-                // disconnect
-                else{
-                    message.guild.voice.connection.disconnect();
-                }
-            }
-            
-            // else if(command === "clear" || command === "delete"){
-            //     message.channel.messages.fetch().then((results) => {
-            //         message.channel.bulkDelete(results);
-            //     })
-            // }
-
-
-
-            // Song commands
-            else if(command === 'apnibhavnaokodaalo' || command === 'bhavnao'){
-                client.commands.get('ApniBhavnaoKoDaalo').execute(message, args);
             }
 
-            else if(command === 'apnimaamaatchudao' || command === 'maachudao'){
-                client.commands.get('ApniMaaMatChu').execute(message, args);
-            }
-
-            else if(command === 'areymaachudipadihai' || command === 'maachudi'){
-                client.commands.get('AreyMCPadiHai').execute(message, args);
-            }
-
-            else if(command == 'bikgayihaigormint' || command === 'gormint'){
-                client.commands.get('BikGayiGormint').execute(message, args);
-            }
-
-            else if(command === 'bolnaauntyaaukya' || command === 'aunty'){
-                client.commands.get('BolNaAuntyAauKya').execute(message, args);
-            }
-
-            else if(command === 'terigandmaidaalduga' || command === 'gand'){
-                client.commands.get('BSDKTeriGMaiDaalDunga').execute(message, args);
-            }
-
-            else if(command === 'chalbhosdike' || command === 'chalbsdk'){
-                client.commands.get('ChalBsdk').execute(message, args);
-            }
-
-            else if(command === 'chupbilkulchup' || command === 'chup'){
-                client.commands.get('ChupBilkulChup').execute(message, args);
-            }
-
-            else if(command === 'deshsankatmaihai' || command === 'desh'){
-                client.commands.get('DeshSankatMaiHai').execute(message, args);
-            }
-
-            else if(command === 'dhatterimaaki' || command === 'dhatmkc'){
-                client.commands.get('DhatTeriMkc').execute(message, args);
-            }
-
-            else if(command === 'jantamaafnhikaregi' || command === 'janta'){
-                client.commands.get('JantaMaafNhiKaregi').execute(message, args);
-            }
-
-            else if(command === 'kaunhaiyehlog' || command === 'log'){
-                client.commands.get('KaunHaiYehLog').execute(message, args);
-            }
-
-            else if(command === 'kehnakyachahtehoo' || command === 'kehna'){
-                client.commands.get('KehnaKyaChahteHoo').execute(message, args);
-            }
-
-            else if(command === 'maakabhosdamc' || command === 'mkbmc'){
-                client.commands.get('MaaKaBsdaMc').execute(message, args);
-            }
-
-            else if(command === 'maimchu' || command === 'maimchu'){
-                client.commands.get('MaiMcHu').execute(message, args);
-            }
-
-            else if(command === 'netaneta' || command === 'neta'){
-                client.commands.get('NetaNeta').execute(message, args);
-            }
-
-            else if(command === 'nikallaude' || command === 'nikal'){
-                client.commands.get('NikalLaudeBhau').execute(message, args);
-            }
-
-            else if(command === 'rawdiesgaali' || command === 'toxic'){
-                client.commands.get('Rawdies').execute(message, args);
-            }
-
-            else if(command === 'saaremilkarmcbaanare' || command === 'mcbanare'){
-                client.commands.get('SaareMilkarMcBanare').execute(message, args);
-            }
-
-            else if(command === 'sachboldebsdk' || command === 'sach'){
-                client.commands.get('SachBoldeBSDK').execute(message, args);
-            }
-
-            else if(command === 'bhagwansedaaro' || command === 'daro'){
-                client.commands.get('SharamKaroBhagwanSeDaro').execute(message, args);
-            }
-
-            else if(command === 'terimaadisco' || command === 'disco'){
-                client.commands.get('TeriMaaDiscoBhau').execute(message, args);
-            }
-
-            else if(command === 'terimaakurkure' || command === 'kurkure'){
-                client.commands.get('TeriMaaKurkureBhau').execute(message, args);
-            }
-
-            else if(command === 'tumsenahopayega' || command === 'nahopayega'){
-                client.commands.get('TumseNaHoPayega').execute(message, args);
-            }
-
-            else if(command === 'whatwtf' || command === 'wtf'){
-                client.commands.get('WhatWTF').execute(message, args);
-            }
-
-            else if(command === 'yehkoirkhai' || command === 'rk'){
-                client.commands.get('YehKoiRkHai').execute(message, args);
-            }
-
-            else if(command === 'yehtohtattihai' || command === 'tatti'){
-                client.commands.get('YehTohTattiHai').execute(message, args);
-            }
-
-            else if(command === 'salamalikum' || command === 'salam'){
-                client.commands.get('SalamAlikum').execute(message, args);
-            }
-
-            else if(command === 'terimkc' || command === 'terimk'){
-                client.commands.get('TeriMKC').execute(message, args);
-            }
-
-            else if(command === 'oooo' || command ==  'dilwaale'){
-                client.commands.get('DilWaaleOOOO').execute(message, args);
-            }
-
-            else if(command === 'nahi' || command ==  'nai'){
-                client.commands.get('Nahi').execute(message, args);
-            }
-            
-            else if(command === 'baapkomatsikha' || command ==  'matsikha'){
-                client.commands.get('MalumHaiTereBaapKoMatSikha').execute(message, args);
-            }
-            
-            else if(command === 'abeysaale' || command ==  'saale'){
-                client.commands.get('AbeySaale').execute(message, args);
-            }
-            
-            else if(command === 'padhailikhai' || command ==  'padhai'){
-                client.commands.get('PadhaiLikhaiMaiDhyanLagao').execute(message, args);
-            }
-            
-            else if(command === 'zindatohbaalbhihai' || command ==  'jhaatkebaal'){
-                client.commands.get('ZindaTohBaalBhiHai').execute(message, args);
-            }
-            
-            else if(command === 'gandnaphulao' || command ==  'mcdenge'){
-                client.commands.get('GandNaaPhulao').execute(message, args);
-            }
-            
-            else if(command === 'chacha' || command ==  'bsdkchacha'){
-                client.commands.get('ChachaOhhChacha').execute(message, args);
-            }
-            
-            else if(command === 'musicbandkaro' || command ==  'musicband'){
-                client.commands.get('AreyMusicBandKaroZaara').execute(message, args);
-            }
-            
-            else if(command === 'restkro' || command ==  'rip'){
-                client.commands.get('ThodaRestKarLijiye').execute(message, args);
-            }
-            
-            else if(command === 'kisekehrha' || command ==  'kkrh'){
-                client.commands.get('KiseKehRahaHai').execute(message, args);
-            }
-            
-            else if(command === 'sorryraga' || command ==  'sorry'){
-                client.commands.get('SorrySorryRAGA').execute(message, args);
-            }
-            
-            else if(command === 'laudaphekke' || command ==  'purakhandan'){
-                client.commands.get('LaudaPhekKeMaruga').execute(message, args);
-            }
-            
-            else if(command === 'oh' || command ==  'ohh'){
-                client.commands.get('Ohhhhhhhh').execute(message, args);
-            }
-            
-            else if(command === 'pattseheadshot' || command ==  'headshot'){
-                client.commands.get('PattSeHeadshot').execute(message, args);
-            }
-            
-            else if(command === 'mujhemaro' || command ==  'mmm'){
-                client.commands.get('MaroMujheMaro').execute(message, args);
-            }
-            
-            else if(command === 'matlabkuchbhi' || command ==  'kuchbhi'){
-                client.commands.get('MatlabKuchBhi').execute(message, args);
-            }
-            
-            else if(command === 'itsherchoice' || command ==  'herchoice'){
-                client.commands.get('ItsHerChoice').execute(message, args);
-            }
-            
-            else if(command === 'buralagtahai' || command ==  'dilsebura'){
-                client.commands.get('BuraLagtaHaiBhai').execute(message, args);
-            }
-            
-            else if(command === 'ekdabbagu' || command ==  'dabbagu'){
-                client.commands.get('EkDabbaGuuBhau').execute(message, args);
-            }
-            
-            else if(command === 'lundinsaan' || command ==  'lundinsaan'){
-                client.commands.get('LundInsaanCarry').execute(message, args);
-            }
-
-            // Else
-            else{
-                message.channel.send("Galat command hai BSDK !!!");
-            }
-        }
-        // To check if member has role named tb if not next else
+            playSound(message, myJson[command]);
+        
+        } // Closing of permission to play bot
         else{
             message.channel.send("You dont have the permission to use Toxic-Bot (Add a role 'tb') !!");
-        }
+        } // To check if member has role named tb if not next else
     }
     catch(err){
-        console.log("Error occured !!! + " + err.message);
+        console.log("Error occured !!! " + err.message);
     }
 
 });
+
 
 
 
