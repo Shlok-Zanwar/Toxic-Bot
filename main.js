@@ -80,11 +80,48 @@ function handleBusyBot(message, command){
 }
 
 
+function sendHelpMessage(channel){
+    const messageToSend = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Apun aa gaya hai meme bajane.')
+        .setAuthor('TOXIC BOT')
+        .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.\nFor help\ntb help")
+        .addFields(
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Prefix', value: '"tb "' },
+            { name: 'Example', value: '"tb nahi"' },
+            { name: 'Commands', value: 'https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing' },
+            { name: 'Website', value: 'Website to be added' },
+        )
+        .setImage('https://i.ibb.co/7tynPG9/Logo.jpg')
+    channel.send(messageToSend);
+}
+
+
+function getWelcomeChannel(){
+    try{
+        for (let key in channels) {
+            let c = channels[key];
+            if (c[1].type === "text") {
+                channelID = c[0];
+                if(guild.me.permissionsIn(channelID).hasPermission('SEND_MESSAGES')){
+                    break;
+                }
+            }
+        }
+
+        let channel = guild.channels.cache.get(guild.systemChannelID || channelID);
+        sendHelpMessage(channel);
+        
+    }
+    catch(err){
+        console.log("Couldnt send entry message :(");
+    }
+}
+
 client.on("guildCreate", guild => {
-    // const messageToSend = "Apun aa gaya hai meme bajane.\nprefix           :- 'tb '\nEg                 :- tb nai\nCommands :- https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing";
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    // const sendToCh = guild.channels.cache.find(ch => ch.permissionsFor(guild.me).has('SEND_MESSAGES'))
-    // guild.channels.create('toxic-Bot', { reason: 'Needed a cool new channel' }).then(ch => ch.send("Apun aa gaya hai meme bajane.\nprefix           :- 'tb '\nEg                 :- tb nai\nCommands :- https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing"));
+    getWelcomeChannel();
 });
 
 client.once('ready', () => {
@@ -104,6 +141,11 @@ client.on('message', message => {
         if(message.member.hasPermission('ADMINISTRATOR') || isPermit){
             const args = message.content.slice(prefix.length).split("/ +/");
             const command = args.shift().toLowerCase();
+
+            if(command === 'help'){
+                sendHelpMessage(message.channel)
+                return;
+            }
 
             if(command === 'disconnect' || command === 'leave' || command === 'dc'){
                 handleDisconnect(message, command);
