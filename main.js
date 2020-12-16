@@ -120,8 +120,30 @@ function getWelcomeChannel(){
 }
 
 client.on("guildCreate", guild => {
+    // console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+    // getWelcomeChannel();
+    let channelID;
+    let channels = guild.channels.cache;
+
+    const messageToSend = "Apun aa gaya hai meme bajane.\nTo use the bot, you need to have a role named 'tb'.\nprefix           :- 'tb '\nEg                 :- tb nai\nCommands :- https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing";
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    getWelcomeChannel();
+    try{
+        for (let key in channels) {
+            let c = channels[key];
+            if (c[1].type === "text") {
+                channelID = c[0];
+                if(guild.me.permissionsIn(channelID).hasPermission('SEND_MESSAGES')){
+                    break;
+                }
+            }
+        }
+
+        let channel = guild.channels.cache.get(guild.systemChannelID || channelID);
+        channel.send(messageToSend);
+    }
+    catch(err){
+        console.log("Couldnt send entry message :(");
+    }
 });
 
 client.once('ready', () => {
