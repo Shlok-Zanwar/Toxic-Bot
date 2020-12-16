@@ -7,8 +7,26 @@ client.commands = new Discord.Collection();
 var queue = [];
 var botIsBusy = false;
 const maxQueue = 7;
+const colorEmbed = "#0099ff";
 
 var myJson = require('./commands/myJson.json');
+
+
+// channel is directly the channel to send (eg :- "message.channel".send)
+function sendEmbedMessage(channel, title, description){
+    var messageToSend;
+    if(description == null){
+        messageToSend = new Discord.MessageEmbed()
+            .setColor(colorEmbed)
+            .setDescription(title)
+    }
+    else{
+        messageToSend = new Discord.MessageEmbed()
+            .setColor(colorEmbed)
+            .addField(title, description)
+    }
+    channel.send(messageToSend);
+}
 
 function handleQueue(message){
     if(queue.length == 0){
@@ -26,7 +44,7 @@ function playSound(message, songName){
     const {voice} = message.member
 
     if(!voice.channelID){
-        message.channel.send('You must be in a voice channel.');
+        sendEmbedMessage(message.channel, "You must be in a voice channel.", null);
     }
     else{
         strToPlay = './commands/'+songName;
@@ -43,17 +61,17 @@ function playSound(message, songName){
 function handleDisconnect(message){
     // If never joined a voice channel
     if(message.guild.voice === undefined){
-        message.channel.send("Arey chutiye mai hu hee nhi koi channel mai ...");
+        sendEmbedMessage(message.channel, "Arey chutiye mai hu hee nhi koi channel mai ...", null);
         return;
     }
     // If not in channel
     if (message.guild.voice.channelID === null){
-        message.channel.send("Arey chutiye mai hu hee nhi koi channel mai");
+        sendEmbedMessage(message.channel, "Arey chutiye mai hu hee nhi koi channel mai ...", null);
         return;
     }
     // if not in same channel
     else if(message.member.voice.channelID !== message.guild.voice.channelID){
-        message.channel.send("Pehle mere sath same channel mai aa loudu.");
+        sendEmbedMessage(message.channel, "Pehle mere sath same channel mai aa loudu.", null);
         return;
     }
     // disconnect
@@ -68,13 +86,13 @@ function handleDisconnect(message){
 
 function handleBusyBot(message, command){
     if(message.member.voice.channelID !== message.guild.voice.channelID){
-        message.channel.send("I am already playing something in '" + message.guild.voice.channel.name + "' voice channel. ");
+        sendEmbedMessage(message.channel, "I am already playing something in '" + message.guild.voice.channel.name + "' voice channel.", null);
     }
     else if(queue.length >= maxQueue){
-        message.channel.send("Queue is full, please wait.")
+        sendEmbedMessage(message.channel, "Queue is full, please wait.", null);
     }
     else{
-        message.channel.send("'" + command + "' added to queue.")
+        sendEmbedMessage(message.channel, "'" + command + "' added to queue.", null);
         queue.push(command);
     }
 }
@@ -82,7 +100,7 @@ function handleBusyBot(message, command){
 
 function sendHelpMessage(channel){
     const messageToSend = new Discord.MessageEmbed()
-        .setColor('#0099ff')
+        .setColor(colorEmbed)
         .setTitle('Apun aa gaya hai meme bajane.')
         .setAuthor('TOXIC BOT')
         .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.")
@@ -97,6 +115,17 @@ function sendHelpMessage(channel){
         .setImage('https://i.ibb.co/7tynPG9/Logo.jpg')
     channel.send(messageToSend);
 }
+
+function printQueue(message){
+    var strToPrint = "";
+    var i;
+    for(i = 0; i < queue.length; i++){
+        strToPrint += (i+1).toString() + ") " + queue[i] + "\n";
+    }
+
+    sendEmbedMessage(message.channel, "Queue", strToPrint);
+}
+
 
 client.on("guildCreate", guild => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
@@ -147,7 +176,18 @@ client.on('message', message => {
             }
 
             if(command === 'commands' || command === 'command'){
-                message.channel.send("View Commands here :-\nhttps://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing")
+                sendEmbedMessage(message.channel, "View Commands here", "https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing");
+                return;
+            }
+
+            if(command === 'queue' || command == 'printqueue'){
+                if(queue.length >= 1){
+                    printQueue(message);
+                }
+                else{
+                    sendEmbedMessage(message.channel, "Queue is empty", null);
+                }
+                return;
             }
 
             if(command === 'disconnect' || command === 'leave' || command === 'dc'){
@@ -158,33 +198,33 @@ client.on('message', message => {
             
             if(command === 'remove' || command === 'rm'){
                 if(queue.length >= 1){
-                    message.channel.send("'" + queue[queue.length - 1] + "' removed from queue.")
+                    sendEmbedMessage(message.channel, "'" + queue[queue.length - 1] + "' removed from queue.", null);
                     queue.pop();
                     if(queue.length == 0){
                         botIsBusy = false;
                     }
                 }
                 else{
-                    message.channel.send("Nothing to remove from queue.")
+                    sendEmbedMessage(message.channel, "Nothing to remove from queue.", null);
                 }
                 return;
             }
 
             if(command === 'clearqueue' || command === 'clrq'){
                 if(queue.length >= 1){
-                    message.channel.send("Queue cleared.")
+                    sendEmbedMessage(message.channel, "Queue cleared.", null);
                     queue = [];
                     botIsBusy = false;
                 }
                 else{
-                    message.channel.send("Nothing to remove from queue.")
+                    sendEmbedMessage(message.channel, "Nothing to remove from queue.", null);
                 }
                 return;
             }
             
 
             if(myJson[command] === undefined){
-                message.channel.send("Galat Command hai BSDK !!!!");
+                sendEmbedMessage(message.channel, "Galat Command hai BSDK !!!!", null);
                 return;
             }
 
@@ -204,7 +244,7 @@ client.on('message', message => {
         
         } // Closing of permission to play bot
         else{
-            message.channel.send("You dont have the permission to use Toxic-Bot (Add a role 'tb') !!");
+            sendEmbedMessage(message.channel, "You dont have the permission to use Toxic-Bot (Add a role 'tb') !!", null);
         } // To check if member has role named tb if not next else
     }
     catch(err){
