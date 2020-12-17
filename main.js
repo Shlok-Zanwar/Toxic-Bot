@@ -175,7 +175,12 @@ function allChannelNames(message){
 
 client.on("guildCreate", guild => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    findChannelToSend(guild, false);
+    try{
+        findChannelToSend(guild, false);
+    }
+    catch(err){
+        console.log("Error occured !!! " + err.message);
+    }
 });
 
 
