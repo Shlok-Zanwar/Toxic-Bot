@@ -181,6 +181,7 @@ client.on("guildCreate", guild => {
 
 client.once('ready', () => {
     console.log('TOXIC Bot is online !');
+    console.log("Logged into " + client.guilds.cache.size + " servers.");
 })
 
 
