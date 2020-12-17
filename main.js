@@ -133,11 +133,10 @@ function printQueue(message){
 }
 
 
-client.on("guildCreate", guild => {
-    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+function findChannelToSend(guild, updateMessage){
+    
     let channelID;
     let channels = guild.channels.cache;
-
     try{
         for (let key in channels) {
             let c = channels[key];
@@ -150,12 +149,33 @@ client.on("guildCreate", guild => {
         }
 
         let channel = guild.channels.cache.get(guild.systemChannelID || channelID);
+        if(updateMessage){
+            sendEmbedMessage(channel, "New Update !!!", "We dropped a new update !!! Head on to our website for details.")
+        }
         sendHelpMessage(channel);
         
     }
     catch(err){
-        console.log("Couldnt send entry message :(");
+        console.log("Couldnt send entry message :(" + err.message);
     }
+}
+
+
+function sendServerUpdateMessage(){
+    var guildList = client.guilds.cache;
+    guildList.forEach(guild => findChannelToSend(guild, true))
+}
+
+
+function allChannelNames(message){
+    var guildList = client.guilds.cache;
+    guildList.forEach(guild => sendEmbedMessage(message.channel, guild.name, null));
+}
+
+
+client.on("guildCreate", guild => {
+    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+    findChannelToSend(guild, false);
 });
 
 
@@ -167,6 +187,21 @@ client.once('ready', () => {
 client.on('message', message => {
     
     try{
+        // check dm from shlok
+        if(message.channel.type === "dm"){
+            if(message.author.id == 360730103589634049){
+                console.log("Message from shlok => " + message.content);
+                if(message.content === "send update message"){
+                    sendServerUpdateMessage();
+                    sendEmbedMessage(message.channel, "Update messages sent")
+                }
+                else if(message.content === "show all servers"){
+                    allChannelNames(message);
+                }
+            }
+            return;
+        }
+
         if(!message.content.startsWith(prefix) || message.author.bot) {
             return;
         }
