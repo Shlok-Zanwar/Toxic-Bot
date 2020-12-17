@@ -163,13 +163,27 @@ function findChannelToSend(guild, updateMessage){
 
 function sendServerUpdateMessage(){
     var guildList = client.guilds.cache;
-    guildList.forEach(guild => findChannelToSend(guild, true))
+    guildList.forEach(guild => {
+        try{
+            findChannelToSend(guild, true);
+        }
+        catch(err){
+            console.log("couldnt send message to " + guild.name);
+        }
+    })
 }
 
 
 function allChannelNames(message){
     var guildList = client.guilds.cache;
-    guildList.forEach(guild => sendEmbedMessage(message.channel, guild.name, null));
+    guildList.forEach(guild => {
+        try{
+            sendEmbedMessage(message.channel, guild.name, null);
+        }
+        catch(err){
+            console.log("couldnt send message to " + guild.name);
+        }
+    });
 }
 
 
