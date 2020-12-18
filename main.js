@@ -4,7 +4,7 @@ const prefix = "tb ";
 
 client.commands = new Discord.Collection();
 
-var adminList = ["360730103589634049", "713482556242133072", "688618504571715710", "517373304122769425"];
+var adminList = ["360730103589634049", "713482556242133072", "688618504571715710", "471293316558880768"];
 var queue = [];
 var botIsBusy = false;
 const maxQueue = 7;
