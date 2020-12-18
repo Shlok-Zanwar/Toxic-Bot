@@ -4,6 +4,7 @@ const prefix = "tb ";
 
 client.commands = new Discord.Collection();
 
+var adminList = ["360730103589634049", "713482556242133072", "688618504571715710", "517373304122769425"];
 var queue = [];
 var botIsBusy = false;
 const maxQueue = 7;
@@ -175,15 +176,17 @@ function sendServerUpdateMessage(){
 
 
 function allChannelNames(message){
-    var guildList = client.guilds.cache;
-    guildList.forEach(guild => {
-        try{
-            sendEmbedMessage(message.channel, guild.name, null);
-        }
-        catch(err){
-            console.log("couldnt send message to " + guild.name);
-        }
-    });
+    const guilds = client.guilds.cache.array()
+
+    const embed = new Discord.MessageEmbed()
+        .setColor(colorEmbed)
+        .setTitle("Server Id  ---------------------  Name")
+        .setDescription('\u200B');
+        // .setTitle("743560692937785534       Name")
+        guilds.forEach(g => {
+            embed.addField(g.id + "  ---  " + g.name, '\u200B')
+        })
+    message.channel.send(embed)
 }
 
 
@@ -209,9 +212,9 @@ client.on('message', message => {
     try{
         // check dm from shlok
         if(message.channel.type === "dm"){
-            if(message.author.id == 360730103589634049){
-                console.log("Message from shlok => " + message.content);
-                if(message.content === "send update message"){
+            if(adminList.includes(message.author.id)){
+                console.log("Message from " + message.author.username + " => " + message.content);
+                if(message.content === "send update message" && message.author.id === "360730103589634049"){
                     sendServerUpdateMessage();
                     sendEmbedMessage(message.channel, "Update messages sent")
                 }
