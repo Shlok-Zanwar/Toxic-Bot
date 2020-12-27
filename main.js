@@ -105,7 +105,7 @@ function sendHelpMessage(channel){
         .setColor(colorEmbed)
         .setTitle('Apun aa gaya hai meme bajane.')
         .setAuthor('TOXIC BOT')
-        .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.")
+        .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.\nWe recommend using earphones :headphones::headphones:")
         .addFields(
             { name: 'For Help', value: 'tb help', inline: true },
             { name: 'To Disconnect', value: 'tb dc', inline: true },
