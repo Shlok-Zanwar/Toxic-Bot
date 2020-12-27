@@ -106,13 +106,14 @@ function sendHelpMessage(channel){
         .setTitle('Apun aa gaya hai meme bajane.')
         .setAuthor('TOXIC BOT')
         .setDescription("To use the bot, you should have admin permissions or need to have a role named 'tb'.")
-        .addField('For help', '"tb help"')
         .addFields(
+            { name: 'For Help', value: 'tb help', inline: true },
+            { name: 'To Disconnect', value: 'tb dc', inline: true },
             { name: '\u200B', value: '\u200B' },
-            { name: 'Website', value: 'Website to be added' },
+            { name: 'Website', value: 'https://toxicbotdiscord.github.io/' },
             { name: 'Prefix', value: '"tb "', inline: true },
             { name: 'Example', value: '"tb nahi"' , inline: true},
-            { name: 'Commands', value: 'https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing' },
+            { name: 'Commands', value: 'https://toxicbotdiscord.github.io/' },
         )
         .setImage('https://i.ibb.co/7tynPG9/Logo.jpg')
     channel.send(messageToSend);
@@ -241,7 +242,7 @@ client.on('message', message => {
             }
 
             if(command === 'commands' || command === 'command'){
-                sendEmbedMessage(message.channel, "View Commands here", "https://docs.google.com/spreadsheets/d/1M-9mTWaDkayPkfxI8HbQyEHuUCRnIMaK9E7ISJgiEwM/edit?usp=sharing");
+                sendEmbedMessage(message.channel, "View Commands here", "https://toxicbotdiscord.github.io/");
                 return;
             }
 
