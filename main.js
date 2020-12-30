@@ -1,4 +1,4 @@
-import "./functions.js";
+import "functions.js";
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
