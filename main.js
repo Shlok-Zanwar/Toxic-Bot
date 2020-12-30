@@ -211,7 +211,7 @@ client.once('ready', () => {
 client.on('message', message => {
     
     try{
-        // check dm from shlok
+        // check dm from admin
         if(message.channel.type === "dm"){
             if(adminList.includes(message.author.id)){
                 console.log("Message from " + message.author.username + " => " + message.content);
