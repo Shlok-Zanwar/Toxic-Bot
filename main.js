@@ -47,7 +47,7 @@ function playSound(message, songName){
         sendEmbedMessage(message.channel, "You must be in a voice channel.", null);
     }
     else{
-        strToPlay = './commands/'+songName;
+        var strToPlay = './commands/'+songName;
         botIsBusy = true;
         voice.channel.join().then((connection) => {
 
