@@ -28,7 +28,7 @@ function sendEmbedMessage(channel, title, description){
 }
 
 
-function handleQueue(message){
+function handleQueue(message) {
     if(queue.length == 0){
         botIsBusy = false;
     }
