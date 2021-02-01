@@ -13,7 +13,7 @@ const colorEmbed = "#0099ff";
 // channel is directly the channel to send (eg :- "message.channel".send)
 function sendEmbedMessage(channel, title, description){
     var messageToSend;
-    if(description == null){
+    if(description == null) {
         messageToSend = new Discord.MessageEmbed()
             .setColor(colorEmbed)
             .setDescription(title)
