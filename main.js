@@ -31,6 +31,7 @@ function sendEmbedMessage(channel, title, description){
 function handleQueue(message){
     if(queue.length == 0){
         botIsBusy = false;
+        handleDisconnect(message);
     }
     else{
         var toPlay = myJson[queue[0]];
