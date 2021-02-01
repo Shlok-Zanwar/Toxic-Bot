@@ -28,7 +28,7 @@ function sendEmbedMessage(channel, title, description){
 }
 
 
-function handleQueue(message){
+function handleQueue(message) {
     if(queue.length == 0){
         botIsBusy = false;
     }
@@ -40,14 +40,14 @@ function handleQueue(message){
 }
 
 
-function playSound(message, songName){
+function playSound(message, songName) {
     const {voice} = message.member
 
     if(!voice.channelID){
         sendEmbedMessage(message.channel, "You must be in a voice channel.", null);
     }
     else{
-        strToPlay = './commands/'+songName;
+        var strToPlay = './commands/'+songName;
         botIsBusy = true;
         voice.channel.join().then((connection) => {
 
