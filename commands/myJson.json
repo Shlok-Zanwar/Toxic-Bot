@@ -157,5 +157,44 @@
     "hagdiye" : "_ChotiSiBaatPeHagDiye.mp3",
 
     "duniyamc" : "_DuniyaMcThiMcHaiMcRahegi.mp3",
-    "mcthi" : "_DuniyaMcThiMcHaiMcRahegi.mp3w"
+    "mcthi" : "_DuniyaMcThiMcHaiMcRahegi.mp3",
+
+    "ekdinmarjayega" : "_EkDinMarjayegaKutteKiMaut.mp3",
+    "ekdin" : "_EkDinMarjayegaKutteKiMaut.mp3",
+
+    "jaakedekh" : "_JaakeDekhRecardMe.mp3",
+    "recard" : "_JaakeDekhRecardMe.mp3",
+
+    "marnahaikya" : "_MarnaHaiKyaBsdk.mp3",
+    "darrnhilagta" : "_MarnaHaiKyaBsdk.mp3",
+
+    "meralauda" : "_MatlabMeraLauda.mp3",
+    "lauda" : "_MatlabMeraLauda.mp3",
+
+    "murgachahiye" : "_MurgaChahiyeMereko.mp3",
+    "murga" : "_MurgaChahiyeMereko.mp3",
+
+    "paisabarbad" : "_PaisaBarbadBc.mp3",
+    "paisa" : "_PaisaBarbadBc.mp3",
+
+    "riskishq" : "_RiskHaiTohIskHai.mp3",
+    "risk" : "_RiskHaiTohIskHai.mp3",
+
+    "binakisibakchodike" : "_ShuruKarteHaiBinaKisiBakchodiKe.mp3",
+    "shurukartehai" : "_ShuruKarteHaiBinaKisiBakchodiKe.mp3",
+
+    "battibanao" : "_TameezKiNaBattiBanao.mp3",
+    "tameez" : "_TameezKiNaBattiBanao.mp3",
+
+    "gaandmecharti" : "_TereGaandMeChatri.mp3",
+    "chatri" : "_TereGaandMeChatri.mp3",
+
+    "kaisehaiaap" : "_TohKaiseHaiAapLog.mp3",
+    "toh" : "_TohKaiseHaiAapLog.mp3",
+
+    "vishudhachutiye" : "_VishudhaChutiyeLadkeHoTum.mp3",
+    "chutiye" : "_VishudhaChutiyeLadkeHoTum.mp3",
+
+    "yehkyachod" : "_YeKyaChodFailailaHai.mp3",
+    "chod" : "_YeKyaChodFailailaHai.mp3"
 }
