@@ -40,7 +40,7 @@ function handleQueue(message) {
 }
 
 
-function playSound(message, songName){
+function playSound(message, songName) {
     const {voice} = message.member
 
     if(!voice.channelID){
