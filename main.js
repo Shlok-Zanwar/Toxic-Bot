@@ -253,7 +253,7 @@ client.on('message', message => {
             }
 
             if(command === 'disconnect' || command === 'leave' || command === 'dc'){
-                handleDisconnect(message, command);
+                handleDisconnect(message);
                 return;
             }
 
