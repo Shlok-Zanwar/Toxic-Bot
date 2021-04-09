@@ -232,7 +232,8 @@ client.on('message', message => {
             return;
         }
 
-        var isPermit = message.member.roles.cache.find(role => role.name === "tb");
+        // var isPermit = message.member.roles.cache.find(role => role.name === "tb");
+        var isPermit = true;
 
         if(message.member.hasPermission('ADMINISTRATOR') || isPermit){
             const args = message.content.slice(prefix.length).split("/ +/");
